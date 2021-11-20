@@ -1,0 +1,213 @@
+
+PLAY [ec2-k8s-proxy] ********************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************
+ok: [ec2-54-233-223-180.sa-east-1.compute.amazonaws.com]
+
+TASK [Configura hostname haproxy] *******************************************************************************************
+changed: [ec2-54-233-223-180.sa-east-1.compute.amazonaws.com]
+
+TASK [Roda: sudo apt-get update] ********************************************************************************************
+ok: [ec2-54-233-223-180.sa-east-1.compute.amazonaws.com]
+
+TASK [Instala pacotes] ******************************************************************************************************
+ok: [ec2-54-233-223-180.sa-east-1.compute.amazonaws.com] => (item=[u'haproxy'])
+
+TASK [Trocando haproxy] *****************************************************************************************************
+ok: [ec2-54-233-223-180.sa-east-1.compute.amazonaws.com]
+
+PLAY [ec2-k8s-m1] ***********************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************
+ok: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+
+TASK [Configura hostname k8s-master] ****************************************************************************************
+changed: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+
+PLAY [ec2-k8s-m2] ***********************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************
+ok: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com]
+
+TASK [Configura hostname k8s-master] ****************************************************************************************
+changed: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com]
+
+PLAY [ec2-k8s-m3] ***********************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************
+ok: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com]
+
+TASK [Configura hostname k8s-master] ****************************************************************************************
+changed: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com]
+
+PLAY [ec2-k8s-w1] ***********************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************
+ok: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com]
+
+TASK [Configura hostname k8s-workers] ***************************************************************************************
+changed: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com]
+
+PLAY [ec2-k8s-w2] ***********************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************
+ok: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com]
+
+TASK [Configura hostname k8s-workers] ***************************************************************************************
+changed: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com]
+
+PLAY [ec2-k8s-w3] ***********************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************
+ok: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com]
+
+TASK [Configura hostname k8s-workers] ***************************************************************************************
+changed: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com]
+
+PLAY [ec2-k8s-m1,ec2-k8s-m3,ec2-k8s-m2,ec2-k8s-w1,ec2-k8s-w2,ec2-k8s-w3] ****************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************
+ok: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com]
+ok: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com]
+ok: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com]
+
+TASK [install packages required by docker] **********************************************************************************
+ok: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com]
+ok: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com]
+ok: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com]
+
+TASK [add docker GPG key] ***************************************************************************************************
+ok: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com]
+ok: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com]
+ok: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com]
+
+TASK [add docker apt repo] **************************************************************************************************
+ok: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com]
+ok: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com]
+ok: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com]
+
+TASK [install docker] *******************************************************************************************************
+ok: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com]
+ok: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com]
+ok: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com]
+
+TASK [Corrigindo docker para o kubernetes] **********************************************************************************
+ok: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com]
+ok: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com]
+ok: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com]
+
+TASK [Restart docker] *******************************************************************************************************
+changed: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com]
+changed: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com]
+changed: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com]
+changed: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com]
+changed: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com]
+changed: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+
+TASK [Remove swapfile from /etc/fstab] **************************************************************************************
+ok: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com] => (item=swap)
+ok: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com] => (item=swap)
+ok: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com] => (item=swap)
+ok: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com] => (item=swap)
+ok: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com] => (item=swap)
+ok: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com] => (item=none)
+ok: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com] => (item=none)
+ok: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com] => (item=none)
+ok: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com] => (item=none)
+ok: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com] => (item=none)
+ok: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com] => (item=swap)
+ok: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com] => (item=none)
+
+TASK [Disable swap] *********************************************************************************************************
+skipping: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+skipping: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com]
+skipping: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com]
+skipping: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com]
+skipping: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com]
+skipping: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com]
+
+TASK [Add an apt signing key for Kubernetes] ********************************************************************************
+ok: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com]
+ok: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com]
+ok: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+ok: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com]
+
+TASK [Adding apt repository for Kubernetes] *********************************************************************************
+ok: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com]
+ok: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+ok: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com]
+ok: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com]
+
+TASK [Install Kubernetes binaries] ******************************************************************************************
+ok: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com]
+ok: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com]
+ok: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com]
+
+TASK [Restart kubelet] ******************************************************************************************************
+changed: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com]
+changed: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com]
+changed: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com]
+changed: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com]
+changed: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+changed: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com]
+
+TASK [Host para o haproxy] **************************************************************************************************
+ok: [ec2-18-228-232-196.sa-east-1.compute.amazonaws.com]
+ok: [ec2-54-207-181-97.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-229-138-14.sa-east-1.compute.amazonaws.com]
+ok: [ec2-18-231-171-194.sa-east-1.compute.amazonaws.com]
+ok: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+ok: [ec2-15-228-8-154.sa-east-1.compute.amazonaws.com]
+
+PLAY [ec2-k8s-m1] ***********************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************
+ok: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+
+TASK [Reset cluster] ********************************************************************************************************
+changed: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+
+TASK [shell] ****************************************************************************************************************
+changed: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+
+TASK [debug] ****************************************************************************************************************
+ok: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com] => {
+    "msg": " '[u'[init] Using Kubernetes version: v1.22.4', u'[preflight] Running pre-flight checks', u'[preflight] Pulling images required for setting up a Kubernetes cluster', u'[preflight] This might take a minute or two, depending on the speed of your internet connection', u\"[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'\", u'[certs] Using certificateDir folder \"/etc/kubernetes/pki\"', u'[certs] Generating \"ca\" certificate and key', u'[certs] Generating \"apiserver\" certificate and key', u'[certs] apiserver serving cert is signed for DNS names [k8s-haproxy k8s-master-1 kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 192.168.50.4]', u'[certs] Generating \"apiserver-kubelet-client\" certificate and key', u'[certs] Generating \"front-proxy-ca\" certificate and key', u'[certs] Generating \"front-proxy-client\" certificate and key', u'[certs] Generating \"etcd/ca\" certificate and key', u'[certs] Generating \"etcd/server\" certificate and key', u'[certs] etcd/server serving cert is signed for DNS names [k8s-master-1 localhost] and IPs [192.168.50.4 127.0.0.1 ::1]', u'[certs] Generating \"etcd/peer\" certificate and key', u'[certs] etcd/peer serving cert is signed for DNS names [k8s-master-1 localhost] and IPs [192.168.50.4 127.0.0.1 ::1]', u'[certs] Generating \"etcd/healthcheck-client\" certificate and key', u'[certs] Generating \"apiserver-etcd-client\" certificate and key', u'[certs] Generating \"sa\" key and public key', u'[kubeconfig] Using kubeconfig folder \"/etc/kubernetes\"', u'[kubeconfig] Writing \"admin.conf\" kubeconfig file', u'[kubeconfig] Writing \"kubelet.conf\" kubeconfig file', u'[kubeconfig] Writing \"controller-manager.conf\" kubeconfig file', u'[kubeconfig] Writing \"scheduler.conf\" kubeconfig file', u'[kubelet-start] Writing kubelet environment file with flags to file \"/var/lib/kubelet/kubeadm-flags.env\"', u'[kubelet-start] Writing kubelet configuration to file \"/var/lib/kubelet/config.yaml\"', u'[kubelet-start] Starting the kubelet', u'[control-plane] Using manifest folder \"/etc/kubernetes/manifests\"', u'[control-plane] Creating static Pod manifest for \"kube-apiserver\"', u'[control-plane] Creating static Pod manifest for \"kube-controller-manager\"', u'[control-plane] Creating static Pod manifest for \"kube-scheduler\"', u'[etcd] Creating static Pod manifest for local etcd in \"/etc/kubernetes/manifests\"', u'[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory \"/etc/kubernetes/manifests\". This can take up to 4m0s', u'[apiclient] All control plane components are healthy after 7.410710 seconds', u'[upload-config] Storing the configuration used in ConfigMap \"kubeadm-config\" in the \"kube-system\" Namespace', u'[kubelet] Creating a ConfigMap \"kubelet-config-1.22\" in namespace kube-system with the configuration for the kubelets in the cluster', u'[upload-certs] Storing the certificates in Secret \"kubeadm-certs\" in the \"kube-system\" Namespace', u'[upload-certs] Using certificate key:', u'c75c1c84f31eba77283de21c070fe05ec6c54f7d986ccf3bda728a4746c15b6b', u'[mark-control-plane] Marking the node k8s-master-1 as control-plane by adding the labels: [node-role.kubernetes.io/master(deprecated) node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers]', u'[mark-control-plane] Marking the node k8s-master-1 as control-plane by adding the taints [node-role.kubernetes.io/master:NoSchedule]', u'[bootstrap-token] Using token: ahvb4j.lqrivvt10dnrlncq', u'[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles', u'[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to get nodes', u'[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials', u'[bootstrap-token] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token', u'[bootstrap-token] configured RBAC rules to allow certificate rotation for all node client certificates in the cluster', u'[bootstrap-token] Creating the \"cluster-info\" ConfigMap in the \"kube-public\" namespace', u'[kubelet-finalize] Updating \"/etc/kubernetes/kubelet.conf\" to point to a rotatable kubelet client certificate and key', u'[addons] Applied essential addon: CoreDNS', u'[addons] Applied essential addon: kube-proxy', u'', u'Your Kubernetes control-plane has initialized successfully!', u'', u'To start using your cluster, you need to run the following as a regular user:', u'', u'  mkdir -p $HOME/.kube', u'  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config', u'  sudo chown $(id -u):$(id -g) $HOME/.kube/config', u'', u'Alternatively, if you are the root user, you can run:', u'', u'  export KUBECONFIG=/etc/kubernetes/admin.conf', u'', u'You should now deploy a pod network to the cluster.', u'Run \"kubectl apply -f [podnetwork].yaml\" with one of the options listed at:', u'  https://kubernetes.io/docs/concepts/cluster-administration/addons/', u'', u'You can now join any number of the control-plane node running the following command on each as root:', u'', u'  kubeadm join k8s-haproxy:6443 --token ahvb4j.lqrivvt10dnrlncq \\\\', u'\\t--discovery-token-ca-cert-hash sha256:4182d3fbfc2cb638e4d6bcbb588b58a92b4c11d14fd96528eb63511e9e024cb1 \\\\', u'\\t--control-plane --certificate-key c75c1c84f31eba77283de21c070fe05ec6c54f7d986ccf3bda728a4746c15b6b', u'', u'Please note that the certificate-key gives access to cluster sensitive data, keep it secret!', u'As a safeguard, uploaded-certs will be deleted in two hours; If necessary, you can use', u'\"kubeadm init phase upload-certs --upload-certs\" to reload certs afterward.', u'', u'Then you can join any number of worker nodes by running the following on each as root:', u'', u'kubeadm join k8s-haproxy:6443 --token ahvb4j.lqrivvt10dnrlncq \\\\', u'\\t--discovery-token-ca-cert-hash sha256:4182d3fbfc2cb638e4d6bcbb588b58a92b4c11d14fd96528eb63511e9e024cb1 ']' "
+}
+
+TASK [Colocando no path da maquina o conf do kubernetes] ********************************************************************
+changed: [ec2-15-228-147-30.sa-east-1.compute.amazonaws.com]
+
+PLAY RECAP ******************************************************************************************************************
+ec2-15-228-147-30.sa-east-1.compute.amazonaws.com : ok=20   changed=6    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+ec2-15-228-8-154.sa-east-1.compute.amazonaws.com : ok=15   changed=3    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+ec2-18-228-232-196.sa-east-1.compute.amazonaws.com : ok=15   changed=3    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+ec2-18-229-138-14.sa-east-1.compute.amazonaws.com : ok=15   changed=3    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+ec2-18-231-171-194.sa-east-1.compute.amazonaws.com : ok=15   changed=3    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+ec2-54-207-181-97.sa-east-1.compute.amazonaws.com : ok=15   changed=3    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+ec2-54-233-223-180.sa-east-1.compute.amazonaws.com : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   

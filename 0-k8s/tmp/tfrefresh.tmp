@@ -1,0 +1,9 @@
+[0m[1maws_security_group.acessos_haproxy: Refreshing state... [id=sg-0bb4719203b4392d0][0m
+[0m[1maws_security_group.acessos_masters: Refreshing state... [id=sg-0ffbf6c0469c3b07e][0m
+[0m[1maws_security_group.acessos_workers: Refreshing state... [id=sg-0b1da6bc8a0ad4cb8][0m
+[0m[1m[32m
+Outputs:
+
+[0msecurity-group-acessos-masters = "sg-0ffbf6c0469c3b07e"
+security-group-acessos_workers = "sg-0b1da6bc8a0ad4cb8"
+security-group-workers-e-haproxy1 = "sg-0bb4719203b4392d0"
