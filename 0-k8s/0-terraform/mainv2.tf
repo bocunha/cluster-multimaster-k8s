@@ -1,4 +1,3 @@
-
 # LINHA  191 E 266 SG FIXO -> DO MASTER
 data "http" "myip" {
   url = "http://ipv4.icanhazip.com" # outra opção "https://ifconfig.me"
@@ -59,7 +58,7 @@ resource "aws_instance" "k8s_workers" {
   instance_type = "t2.medium"
   key_name = "ortaleb-chave-nova"
   tags = {
-    Name = "k8s_workers-${each.key}}"
+    Name = "k8s_workers-${each.key}"
     KubernetesCluster = "UCPKubenertesCluster"
     Owner = "ortaleb"
   }

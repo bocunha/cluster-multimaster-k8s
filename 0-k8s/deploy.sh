@@ -235,6 +235,11 @@ sleep 10
 cd $TFPATH/0-terraform/
 terraform output
 
+
+#GET START.SH/STOP.SH SCRIPT
+awk '/ID:/ { print "aws ec2 start-instances --instance-ids",$5 }' $TFPATH/tmp/tfsgids.tmp > $TFPATH/start.sh
+awk '/ID:/ { print "aws ec2 stop-instances --instance-ids",$5 }' $TFPATH/tmp/tfsgids.tmp > $TFPATH/stop.sh
+
 echo "STATUS DOS NODES"
 ssh -i ${CHAVESSH} ubuntu@${ID_M1_DNS} 'kubectl get nodes'
 
@@ -246,3 +251,4 @@ if [[ $yes == "yes" ]];
   else
   echo "Script finalizado, bye"
 fi
+

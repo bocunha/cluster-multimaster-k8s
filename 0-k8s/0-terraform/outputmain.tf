@@ -18,3 +18,16 @@ output "output-k8s_proxy1" {
   ]
 }
 
+output "k8s-id-masters1" {
+  value = [
+    for key, item in aws_instance.k8s_masters :
+      "k8s-master ${key} - ID: ${item.id}"
+  ]
+}
+
+output "output-id-k8s_workers1" {
+  value = [
+    for key, item in aws_instance.k8s_workers :
+      "k8s-workers ${key} - ID: ${item.id}"
+  ]
+}
