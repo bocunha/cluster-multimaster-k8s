@@ -9,23 +9,23 @@ rm $TFPATH/tmp/tf*.tmp
 
 #PEGA O ESTADO DO TERRAFORM
 cd $TFPATH/0-terraform/
-terraform refresh > $TFPATH/tmp/tfrefresh.tmp
-CHKREFRESH=`grep "empty" $TFPATH/tmp/tfrefresh.tmp | wc -l`
-
-read
+terraform init
+terraform output > $TFPATH/tmp/tfoutput.tmp
+CHKOUTPUT=`grep -i "No outputs found" $TFPATH/tmp/tfoutput.tmp | wc -l`
 
 ### RODA PRA CRIAR OS SECURITY GROUPS E SALVAR OS IDs
-if [ ${CHKSGNOK} == 0 ] || [ ${CHKREFRESH} == 1 ]; 
+if [ ${CHKSGNOK} == 0 ] || [ ${CHKOUTPUT} == 1 ]; 
   then 
     # PREPARA OS ARQUIVOS PARA RODAR SOMENTE SG
     cp sg-nok.tf sg-nok.tf.bkp
     if [ ! -f mainv2.tf.disable ] ;then mv mainv2.tf mainv2.tf.disable; fi
     if [ ! -f outputmain.tf.disable ] ;then mv outputmain.tf outputmain.tf.disable; fi
+    if [ -f sg.ok.tf ]; then rm sg.ok.tf; fi
 
     # RODA O TERRAFORM PARA CRIAR OS SG
     terraform init
     terraform apply -auto-approve
-    
+
     # PEGA O OUTPUT PARA TRATAR
     terraform output | sed 's/\"//g' | sed 's/ //g' > $TFPATH/tmp/tfsgids.tmp
     SGWORKER=`grep security-group-acessos_workers $TFPATH/tmp/tfsgids.tmp | cut -d"=" -f2`
@@ -37,47 +37,56 @@ if [ ${CHKSGNOK} == 0 ] || [ ${CHKREFRESH} == 1 ];
     sed -i 's/#security-group-acessos_workers/"'${SGWORKER}'",/g' sg-ok.tf
     sed -i 's/#security-group-acessos-masters/"'${SGMASTERS}'",/g' sg-ok.tf
     sed -i 's/#security-group-workers-e-haproxy1/"'${SGHAPROXY}'",/g' sg-ok.tf
+
+    CHKSGNOK=`grep "sg" $TFPATH/0-terraform/sg-ok.tf | wc -l`
 fi
 
-read 
-# LIBERA OS ARQUIVOS DO TERRAFORM PARA RODAR
-if [ -f mainv2.tf.disable ]; then mv mainv2.tf.disable mainv2.tf; fi
-if [ -f outputmain.tf.disable ]; then mv outputmain.tf.disable outputmain.tf; fi
+if [ ! -f $TFPATH/tmp/tfsgids.tmp ];
+    then
+      # PEGA O OUTPUT PARA TRATAR
+      terraform output | sed 's/\"//g' | sed 's/ //g' > $TFPATH/tmp/tfsgids.tmp
+fi
 
-read
+# LIBERA OS ARQUIVOS DO TERRAFORM PARA RODAR
+if [ -f mainv2.tf.disable ] ;then mv mainv2.tf.disable mainv2.tf; fi
+if [ -f outputmain.tf.disable ] ;then mv outputmain.tf.disable outputmain.tf; fi
+
 cd $TFPATH/0-terraform/
+CHKREFRESH=$(terraform refresh | wc -l)
+
 if [ ${CHKSGNOK} -eq 5 ] && [ ${CHKREFRESH} -lt 15 ]; 
   then
     terraform init
     terraform apply -auto-approve
 fi
-read
+
 ### RETIRA OS IPS E DNS DAS MAQUINAS
 echo  "Aguardando a criação das maquinas ..."
 sleep 10
 terraform output | sed 's/\",//g' > $TFPATH/tmp/tfoutput.tmp
 
-ID_M1=`awk '/k8s-master azc1 -/ {print $4}' $TFPATH/tmp/tfoutput.tmp`
-ID_M1_DNS=`awk '/k8s-master azc1 -/ {print $7}' $TFPATH/tmp/tfoutput.tmp | cut -d"@" -f2`
+ID_M1=`awk '/IP k8s-master azc1 -/ {print $5}' $TFPATH/tmp/tfoutput.tmp`
+ID_M1_DNS=`awk '/IP k8s-master azc1 -/ {print $8}' $TFPATH/tmp/tfoutput.tmp | cut -d"@" -f2`
 
-ID_M2=`awk '/k8s-master aza2 -/ {print $4}' $TFPATH/tmp/tfoutput.tmp`
-ID_M2_DNS=`awk '/k8s-master aza2 -/ {print $7}' $TFPATH/tmp/tfoutput.tmp | cut -d"@" -f2`
+ID_M2=`awk '/IP k8s-master aza2 -/ {print $5}' $TFPATH/tmp/tfoutput.tmp`
+ID_M2_DNS=`awk '/IP k8s-master aza2 -/ {print $8}' $TFPATH/tmp/tfoutput.tmp | cut -d"@" -f2`
 
-ID_M3=`awk '/k8s-master azc3 -/ {print $4}' $TFPATH/tmp/tfoutput.tmp`
-ID_M3_DNS=`awk '/k8s-master azc3 -/ {print $7}' $TFPATH/tmp/tfoutput.tmp | cut -d"@" -f2`
+ID_M3=`awk '/IP k8s-master azc3 -/ {print $5}' $TFPATH/tmp/tfoutput.tmp`
+ID_M3_DNS=`awk '/IP k8s-master azc3 -/ {print $8}' $TFPATH/tmp/tfoutput.tmp | cut -d"@" -f2`
 
 ID_HAPROXY=`awk '/k8s_proxy -/ {print $3}' $TFPATH/tmp/tfoutput.tmp`
 ID_HAPROXY_DNS=`awk '/k8s_proxy -/ {print $6}' $TFPATH/tmp/tfoutput.tmp | cut -d"@" -f2`
 
-ID_W1=`awk '/k8s-workers azc1 -/ {print $4}' $TFPATH/tmp/tfoutput.tmp`
-ID_W1_DNS=`awk '/k8s-workers azc1 -/ {print $7}' $TFPATH/tmp/tfoutput.tmp | cut -d"@" -f2`
+ID_W1=`awk '/IP k8s-workers azc1 -/ {print $5}' $TFPATH/tmp/tfoutput.tmp`
+ID_W1_DNS=`awk '/IP k8s-workers azc1 -/ {print $8}' $TFPATH/tmp/tfoutput.tmp | cut -d"@" -f2`
 
-ID_W2=`awk '/k8s-workers aza2 -/ {print $4}' $TFPATH/tmp/tfoutput.tmp`
-ID_W2_DNS=`awk '/k8s-workers aza2 -/ {print $7}' $TFPATH/tmp/tfoutput.tmp | cut -d"@" -f2`
+ID_W2=`awk '/IP k8s-workers aza2 -/ {print $5}' $TFPATH/tmp/tfoutput.tmp`
+ID_W2_DNS=`awk '/IP k8s-workers aza2 -/ {print $8}' $TFPATH/tmp/tfoutput.tmp | cut -d"@" -f2`
 
-ID_W3=`awk '/k8s-workers azc3 -/ {print $4}' $TFPATH/tmp/tfoutput.tmp`
-ID_W3_DNS=`awk '/k8s-workers azc3 -/ {print $7}' $TFPATH/tmp/tfoutput.tmp | cut -d"@" -f2`
-read
+ID_W3=`awk '/IP k8s-workers azc3 -/ {print $5}' $TFPATH/tmp/tfoutput.tmp`
+ID_W3_DNS=`awk '/IP k8s-workers azc3 -/ {print $8}' $TFPATH/tmp/tfoutput.tmp | cut -d"@" -f2`
+
+
 # COLOCA A INFRMACAO DOS IPS NO HOSTS DO ANSIBLE
 echo "
 [ec2-k8s-proxy]
@@ -96,10 +105,11 @@ $ID_W1_DNS
 $ID_W2_DNS
 [ec2-k8s-w3]
 $ID_W3_DNS
+
 " > $TFPATH/2-ansible/01-k8s-install-masters_e_workers/hosts
 
 #CRIA SCRIPT DO ANSBILE PARA SUBIR O HAPROXY
-read
+
 echo "
 global
         log /dev/log    local0
@@ -241,14 +251,32 @@ awk '/ID:/ { print "aws ec2 start-instances --instance-ids",$5 }' $TFPATH/tmp/tf
 awk '/ID:/ { print "aws ec2 stop-instances --instance-ids",$5 }' $TFPATH/tmp/tfsgids.tmp > $TFPATH/stop.sh
 
 echo "STATUS DOS NODES"
-ssh -i ${CHAVESSH} ubuntu@${ID_M1_DNS} 'kubectl get nodes'
+ssh -i ${CHAVESSH} ubuntu@${ID_M1_DNS} 'sudo kubectl get nodes'
 
-echo "Voce deseja conectar no master? yes/no"
+echo "127.0.0.1 localhost
+${ID_M1_DNS} master1
+${ID_M2_DNS} master2
+${ID_M3_DNS} master3
+
+
+# The following lines are desirable for IPv6 capable hosts
+::1 ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+" > $TFPATH/tmp/hostsnginx.tmp
+
+scp -i ${CHAVESSH} $TFPATH/tmp/hostsnginx.tmp root@ec2-18-231-181-242.sa-east-1.compute.amazonaws.com:/etc/hosts
+
+
+echo "Voce deseja conectar no balanceador? yes/no"
 read yes
 if [[ $yes == "yes" ]];
   then
-   ssh -i ${CHAVESSH} ubuntu@${ID_M1_DNS}
+    ssh -i ${CHAVESSH} ubuntu@${ID_M1_DNS}
   else
-  echo "Script finalizado, bye"
+    echo "Script finalizado, bye"
 fi
 

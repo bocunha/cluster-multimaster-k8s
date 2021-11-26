@@ -35,7 +35,7 @@ resource "aws_security_group" "acessos_masters" {
       prefix_list_ids  = []
       protocol         = "-1"
       security_groups  = [
-        "sg-0bb4719203b4392d0",
+        "sg-09c85e232d0b370a0",
       ]
       self             = false
       to_port          = 0
@@ -48,7 +48,7 @@ resource "aws_security_group" "acessos_masters" {
       prefix_list_ids  = []
       protocol         = "-1"
       security_groups  = [
-        "sg-0b1da6bc8a0ad4cb8",
+        "sg-019b2ee6dff89e073",
         
       ]
       self             = false
@@ -113,7 +113,7 @@ resource "aws_security_group" "acessos_haproxy" {
       prefix_list_ids  = []
       protocol         = "-1"
       security_groups  = [
-         "sg-0ffbf6c0469c3b07e",
+         "sg-0de09d734c81fa526",
       ]
       self             = false
       to_port          = 0
@@ -126,7 +126,7 @@ resource "aws_security_group" "acessos_haproxy" {
       prefix_list_ids  = []
       protocol         = "-1"
       security_groups  = [
-       "sg-0b1da6bc8a0ad4cb8",
+       "sg-019b2ee6dff89e073",
       ]
       self             = false
       to_port          = 0
@@ -188,7 +188,7 @@ resource "aws_security_group" "acessos_workers" {
       prefix_list_ids  = []
       protocol         = "-1"
       security_groups  = [
-        "sg-0ffbf6c0469c3b07e",
+        "sg-0de09d734c81fa526",
       ]
       self             = false
       to_port          = 0

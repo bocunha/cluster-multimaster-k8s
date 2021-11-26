@@ -11,4 +11,4 @@ cp sg-nok.tf.bkp sg-nok.tf
 terraform init
 terraform apply -auto-approve
 sleep 5
-terraform destroy
+terraform destroy -auto-approve

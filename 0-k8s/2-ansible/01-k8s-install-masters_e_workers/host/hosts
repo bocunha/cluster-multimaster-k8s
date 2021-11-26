@@ -1,6 +1,6 @@
 
 127.0.0.1 localhost
-192.168.50.150 k8s-haproxy # IP privado proxy
+192.168.50.64 k8s-haproxy # IP privado proxy
 
 # The following lines are desirable for IPv6 capable hosts
 ::1 ip6-localhost ip6-loopback

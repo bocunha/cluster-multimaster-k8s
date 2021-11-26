@@ -1,16 +1,26 @@
+k8s-id-masters1 = [
+  "k8s-master aza2 - ID: i-09e47b1e0125de141
+  "k8s-master azc1 - ID: i-00c7c6ad69bbcd877
+  "k8s-master azc3 - ID: i-0dddec3f001ea645f
+]
 k8s-masters1 = [
-  "k8s-master aza2 - 192.168.3.43 - ssh ubuntu@ec2-18-230-76-124.sa-east-1.compute.amazonaws.com
-  "k8s-master azc1 - 192.168.50.148 - ssh ubuntu@ec2-18-231-160-223.sa-east-1.compute.amazonaws.com
-  "k8s-master azc3 - 192.168.50.166 - ssh ubuntu@ec2-54-233-66-105.sa-east-1.compute.amazonaws.com
+  "IP k8s-master aza2 - 192.168.3.231 - ssh ubuntu@ec2-54-207-108-52.sa-east-1.compute.amazonaws.com
+  "IP k8s-master azc1 - 192.168.50.49 - ssh ubuntu@ec2-18-228-28-221.sa-east-1.compute.amazonaws.com
+  "IP k8s-master azc3 - 192.168.50.72 - ssh ubuntu@ec2-15-228-158-0.sa-east-1.compute.amazonaws.com
+]
+output-id-k8s_workers1 = [
+  "k8s-workers aza2 - ID: i-048ca51d1bd2c9883
+  "k8s-workers azc1 - ID: i-0ac9ebffaecaf8f67
+  "k8s-workers azc3 - ID: i-0011f923bddacf430
 ]
 output-k8s_proxy1 = [
-  "k8s_proxy - 192.168.50.150 - ssh ubuntu@ec2-18-231-177-40.sa-east-1.compute.amazonaws.com
+  "k8s_proxy - 192.168.50.64 - ssh ubuntu@ec2-18-230-195-95.sa-east-1.compute.amazonaws.com
 ]
 output-k8s_workers1 = [
-  "k8s-workers aza2 - 192.168.3.238 - ssh ubuntu@ec2-18-231-51-192.sa-east-1.compute.amazonaws.com
-  "k8s-workers azc1 - 192.168.50.222 - ssh ubuntu@ec2-54-94-249-81.sa-east-1.compute.amazonaws.com
-  "k8s-workers azc3 - 192.168.50.181 - ssh ubuntu@ec2-15-228-8-119.sa-east-1.compute.amazonaws.com
+  "IP k8s-workers aza2 - 192.168.3.74 - ssh ubuntu@ec2-54-207-222-71.sa-east-1.compute.amazonaws.com
+  "IP k8s-workers azc1 - 192.168.50.104 - ssh ubuntu@ec2-15-228-60-74.sa-east-1.compute.amazonaws.com
+  "IP k8s-workers azc3 - 192.168.50.189 - ssh ubuntu@ec2-15-228-46-244.sa-east-1.compute.amazonaws.com
 ]
-security-group-acessos-masters = "sg-0ffbf6c0469c3b07e"
-security-group-acessos_workers = "sg-0b1da6bc8a0ad4cb8"
-security-group-workers-e-haproxy1 = "sg-0bb4719203b4392d0"
+security-group-acessos-masters = "sg-0de09d734c81fa526"
+security-group-acessos_workers = "sg-019b2ee6dff89e073"
+security-group-workers-e-haproxy1 = "sg-09c85e232d0b370a0"
